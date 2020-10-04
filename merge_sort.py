@@ -1,7 +1,7 @@
 import itertools
 import heapq
+import numpy as np
 import os
-import random
 import string
 import tempfile
 import typing as tp
@@ -98,6 +98,6 @@ def generate_file(path, line_count=1000, line_length=100):
     letters = string.ascii_lowercase
     with open(path, 'w') as f:
         for line in range(line_count):
-            for letter in range(line_length):
-                f.write(random.choice(letters))
-            f.write("\n")
+            rand = np.random.randint(low=0, high=len(letters), size=line_length)
+            line = "".join(letters[r] for r in rand)
+            print(line, file=f)
