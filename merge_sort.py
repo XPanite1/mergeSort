@@ -1,10 +1,20 @@
+import argparse
 import itertools
 import heapq
 import numpy as np
 import os
 import string
 import tempfile
+import tqdm
 import typing as tp
+
+
+parser = argparse.ArgumentParser(description="Sort big files")
+parser.add_argument('input', type=str, help='input file path, generate if it\'s not exists')
+parser.add_argument('output', type=str, help='output file path')
+parser.add_argument('max_line_merge_count', nargs='?', type=int, default=10, help='max lines count that fit in memory')
+parser.add_argument('line_count', type=int, nargs='?', default=100, help='line count for generating')
+parser.add_argument('line_length', type=int,nargs='?',  default=100, help='line length for generating')
 
 
 def merge_generators(rows1: tp.Iterator[str], rows2: tp.Iterator[str]) -> tp.Iterator[str]:
@@ -95,9 +105,27 @@ def sort_file(input_file: str, output_file: str, max_lines_in_memory=2) -> None:
 
 
 def generate_file(path, line_count=1000, line_length=100):
+    """
+    Generate file with random string lines
+    :param path: path to generate file
+    :param line_count: line count
+    :param line_length: line length
+    :return:
+    """
     letters = string.ascii_lowercase
     with open(path, 'w') as f:
-        for line in range(line_count):
+        for _ in tqdm.tqdm(range(line_count)):
             rand = np.random.randint(low=0, high=len(letters), size=line_length)
             line = "".join(letters[r] for r in rand)
             print(line, file=f)
+
+
+def main():
+    args = parser.parse_args()
+    if not os.path.isfile(args.input):
+        generate_file(args.input, args.line_count, args.line_length)
+    sort_file(args.input, args.output, args.max_line_merge_count)
+
+
+if __name__ == "__main__":
+    main()
