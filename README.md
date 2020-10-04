@@ -7,11 +7,17 @@ usage: merge_sort.py [-h]
 Sort big files
 
 positional arguments:
-  input                 input file path, generate if it's not exists
-  output                output file path
-  max_line_merge_count  max lines count that fit in memory
-  line_count            line count for generating
-  line_length           line length for generating
+  
+    input                 input file path, generate if it's not exist
+
+    output                output file path
+
+    max_line_merge_count  max lines count that fit in memory
+
+    line_count            line count for generating
+
+    line_length           line length for generating
 
 optional arguments:
-  -h, --help            show this help message and exit
+  
+    -h, --help            show this help message and exit
